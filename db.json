@@ -1,0 +1,76 @@
+{
+  "Students": [
+    {
+      "id": 1,
+      "name": "Mohan P",
+      "age": 22,
+      "gender": "Male",
+      "marks": 8,
+      "cohort": "PT-WEB-01"
+    },
+    {
+      "name": "adada",
+      "age": "2000",
+      "gender": "Female",
+      "marks": "2121",
+      "cohort": "web-4",
+      "id": 3
+    },
+    {
+      "name": "atharva",
+      "age": "2000",
+      "gender": "Male",
+      "marks": "23",
+      "cohort": "3",
+      "id": 4
+    },
+    {
+      "name": "sdsd",
+      "age": "2000",
+      "gender": "Male",
+      "marks": "3",
+      "cohort": "3",
+      "id": 5
+    },
+    {
+      "name": "jbj",
+      "age": "09",
+      "gender": "Others",
+      "marks": "99",
+      "cohort": "hu",
+      "id": 7
+    },
+    {
+      "name": "atharva",
+      "age": "2000",
+      "gender": "Male",
+      "marks": "23",
+      "cohort": "23",
+      "id": 8
+    },
+    {
+      "name": "JavaScript",
+      "age": "1000",
+      "gender": "Male",
+      "marks": "12",
+      "cohort": "web4",
+      "id": 9
+    },
+    {
+      "name": "wew",
+      "age": "2000",
+      "gender": "Male",
+      "marks": "232",
+      "cohort": "23",
+      "id": 10
+    },
+    {
+      "name": "atharva",
+      "age": "2000",
+      "gender": "Female",
+      "marks": "23",
+      "cohort": "232",
+      "id": 11
+    }
+  ]
+}

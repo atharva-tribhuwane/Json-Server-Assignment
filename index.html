@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON-SERVER</title>
+    <style>
+        * {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        #inputsec {
+            /* border: 1px solid red; */
+            width: 40%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+        }
+
+        #inputsec>h1 {
+            text-align: center;
+        }
+
+        #inputsec>div {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            margin: auto;
+        }
+
+        #inputsec>div>input,
+        select {
+            padding: 10px;
+            margin-top: 4px;
+            margin-bottom: 10px;
+        }
+
+        #inputsec>div>button {
+            padding: 10px;
+            width: 20%;
+            margin: auto;
+            background-color: rgb(92, 92, 225);
+            color: white;
+            border: none;
+            border-radius: 7px;
+            margin-bottom: 30px;
+        }
+
+        #inputsec>div>label {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        td,
+        th {
+            padding: 2%;
+            width: 10%;
+        }
+        #tbl{
+           width: 60%;
+           margin: auto;
+           box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="inputsec">
+            <h1>Enter Data</h1>
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" placeholder="Enter Name" required />
+                <label for="age">Age:</label>
+                <input type="number" id="age" placeholder="Enter Age" required />
+                <label for="gender">Gender:</label>
+                <select name="gender" id="gender" required>
+                    <option value="" selected disabled></option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Others">Others</option>
+                </select>
+                <label for="marks">Marks:</label>
+                <input type="number" id="marks" placeholder="Enter Marks" required />
+                <label for="cohort">Cohort:</label>
+                <input type="text" id="cohort" placeholder="Enter Cohort" required />
+                <button id="submit" onclick="postData()">Submit</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    let cont = document.getElementById("container");
+    let inp = document.getElementById("inputsec");
+    async function getData() {
+        let res = await fetch("http://localhost:3000/Students");
+        let data = await res.json();
+        displayData(data);
+    }
+
+    async function postData() {
+        // event.preventDefault();
+        console.log("hello");
+        let name = document.getElementById("name").value;
+        let age = document.getElementById("age").value;
+        let gender = document.getElementById("gender").value;
+        let marks = document.getElementById("marks").value;
+        let cohort = document.getElementById("cohort").value;
+
+        let body = {
+            name: name,
+            age: age,
+            gender: gender,
+            marks: marks,
+            cohort: cohort
+        }
+        console.log(body);
+        try {
+            let res = await fetch(`http://localhost:3000/Students`, {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            let data = await res.json();
+            displayData(data);
+            // console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    function displayData(data) {
+        let h1 = document.createElement("h1");
+        h1.innerHTML = "Students List:";
+        let table = document.createElement("table");
+        table.setAttribute("id","tbl");
+        table.border = 1;
+        let thead = document.createElement("thead");
+        let tbody = document.createElement("tbody");
+
+        let trh = document.createElement("tr");
+
+        let th1 = document.createElement("th");
+        th1.innerHTML = "Name";
+        let th2 = document.createElement("th");
+        th2.innerHTML = "Age";
+        let th3 = document.createElement("th");
+        th3.innerHTML = "Gender";
+        let th4 = document.createElement("th");
+        th4.innerHTML = "Marks";
+        let th5 = document.createElement("th");
+        th5.innerHTML = "Cohort";
+        let th6 = document.createElement("th");
+        // th6.innerHTML = "Edit";
+        let th7 = document.createElement("th");
+        // th7.innerHTML = "Delete";
+        trh.append(th1, th2, th3, th4, th5, th6, th7);
+        thead.append(trh);
+
+
+        data.forEach(function (stud) {
+
+            let tr = document.createElement("tr");
+            let td1 = document.createElement("td");
+            td1.innerHTML = stud.name;
+            let td2 = document.createElement("td");
+            td2.innerHTML = stud.age;
+            let td3 = document.createElement("td");
+            td3.innerHTML = stud.gender;
+            let td4 = document.createElement("td");
+            td4.innerHTML = stud.marks;
+            let td5 = document.createElement("td");
+            td5.innerHTML = stud.cohort;
+            let td6 = document.createElement("td");
+            let edtbtn = document.createElement("button");
+            edtbtn.textContent = "Edit"
+            edtbtn.onclick = async function () {
+                localStorage.setItem("editid", JSON.stringify(stud.id));
+                location.href = "./edit.html";
+            }
+            td6.append(edtbtn);
+            let td7 = document.createElement("td");
+            let delbtn = document.createElement("button");
+            delbtn.textContent = "Delete";
+            delbtn.onclick = async function () {
+                try {
+                    let res = await fetch(`http://localhost:3000/Students/${stud.id}`, {
+                        method: "DELETE",
+                    });
+                    getData();
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            td7.append(delbtn);
+            tr.append(td1, td2, td3, td4, td5, td6, td7);
+            tbody.append(tr);
+        });
+        table.append(thead, tbody);
+        cont.append(h1,table);
+    }
+
+    getData();
+
+</script>
+
+</html>
